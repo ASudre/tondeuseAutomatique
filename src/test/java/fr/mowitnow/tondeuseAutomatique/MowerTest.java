@@ -36,6 +36,8 @@ public class MowerTest
 	public void initialisationMowerEnDirectionInconnue_12Z_FailedException() {
 		
 		Throwable e = null;
+		
+		@SuppressWarnings("unused")
 		Mower mower;
 		
 		try {
@@ -97,6 +99,76 @@ public class MowerTest
 		assertEquals(1, mowerN.getxPosition());
 		assertEquals(2, mowerN.getyPosition());
 		assertEquals('E', mowerN.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreD_12E_12S() {
+		//Déplacement en avant
+		mowerE.turnRight();
+		assertEquals(1, mowerE.getxPosition());
+		assertEquals(2, mowerE.getyPosition());
+		assertEquals('S', mowerE.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreD_12S_12W() {
+		//Déplacement en avant
+		mowerS.turnRight();
+		assertEquals(1, mowerS.getxPosition());
+		assertEquals(2, mowerS.getyPosition());
+		assertEquals('W', mowerS.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreD_12W_12N() {
+		//Déplacement en avant
+		mowerW.turnRight();
+		assertEquals(1, mowerW.getxPosition());
+		assertEquals(2, mowerW.getyPosition());
+		assertEquals('N', mowerW.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreG_12N_12W() {
+		//Déplacement en avant
+		mowerN.turnLeft();
+		assertEquals(1, mowerN.getxPosition());
+		assertEquals(2, mowerN.getyPosition());
+		assertEquals('W', mowerN.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreG_12E_12N() {
+		//Déplacement en avant
+		mowerE.turnLeft();
+		assertEquals(1, mowerE.getxPosition());
+		assertEquals(2, mowerE.getyPosition());
+		assertEquals('N', mowerE.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreG_12S_12E() {
+		//Déplacement en avant
+		mowerS.turnLeft();
+		assertEquals(1, mowerS.getxPosition());
+		assertEquals(2, mowerS.getyPosition());
+		assertEquals('E', mowerS.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreG_12W_12S() {
+		//Déplacement en avant
+		mowerW.turnLeft();
+		assertEquals(1, mowerW.getxPosition());
+		assertEquals(2, mowerW.getyPosition());
+		assertEquals('S', mowerW.getDirection());
 		
 	}
 }

@@ -71,11 +71,30 @@ public class Mower
 			switch(this.direction) {
 			case 	'N': this.direction = 'E';
 					break;
-			case 	'E': this.xPosition = 'S';
+			case 	'E': this.direction = 'S';
 					break;
-			case 	'S': this.yPosition -= 'W';
+			case 	'S': this.direction = 'W';
 					break;
-			case 	'W': this.xPosition -= 'N';
+			case 	'W': this.direction = 'N';
+					break;
+		}
+
+	}
+	
+	/**
+	 * Tourne la tondeuse à droite
+	 * @param order
+	 */
+	public void turnLeft() {
+
+			switch(this.direction) {
+			case 	'E': this.direction = 'N';
+					break;
+			case 	'S': this.direction = 'E';
+					break;
+			case 	'W': this.direction = 'S';
+					break;
+			case 	'N': this.direction = 'W';
 					break;
 		}
 
