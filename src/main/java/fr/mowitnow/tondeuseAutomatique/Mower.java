@@ -40,6 +40,10 @@ public class Mower
 		return direction;
 	}
 	
+	/**
+	 * Application des ordres à la tondeuse
+	 * @param order
+	 */
 	public void move(char order) {
 		
 		if('A' == order) {
@@ -48,10 +52,38 @@ public class Mower
 						break;
 				case 	'E': this.xPosition += 1;
 						break;
-				case 	'S': this.xPosition -= 1;
+				case 	'S': this.yPosition -= 1;
 						break;
-				case 	'W': this.yPosition -= 1;
+				case 	'W': this.xPosition -= 1;
 						break;
+			}
+		}
+		else {
+			if('D' == order) {
+				switch(this.direction) {
+					case 	'N': this.direction = 'E';
+							break;
+					case 	'E': this.xPosition = 'S'; 
+							break;
+					case 	'S': this.xPosition = 'W';
+							break;
+					case 	'W': this.yPosition = 'N';
+							break;
+				}
+			}
+			else {
+				if('G' == order) {
+					switch(this.direction) {
+						case 	'N': this.yPosition = 'W';
+								break;
+						case 	'E': this.xPosition = 'N';
+								break;
+						case 	'S': this.xPosition = 'E';
+								break;
+						case 	'W': this.yPosition = 'S';
+								break;
+					}
+				}
 			}
 		}
 
