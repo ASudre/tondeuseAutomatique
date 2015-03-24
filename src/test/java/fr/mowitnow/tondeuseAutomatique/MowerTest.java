@@ -2,6 +2,8 @@ package fr.mowitnow.tondeuseAutomatique;
 
 import static org.junit.Assert.*;
 
+import java.util.LinkedList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +16,7 @@ public class MowerTest
 	Mower mowerE;
 	Mower mowerS;
 	Mower mowerW;
+	Lawn lawn;
 
 	@Before
 	public void SetUp() throws Exception {
@@ -21,6 +24,8 @@ public class MowerTest
 		mowerE = new Mower(1, 2, 'E');
 		mowerS = new Mower(1, 2, 'S');
 		mowerW = new Mower(1, 2, 'W');
+		
+		lawn = new Lawn(5, 5);
 	}
 	
 	@Test
@@ -169,6 +174,43 @@ public class MowerTest
 		assertEquals(1, mowerW.getxPosition());
 		assertEquals(2, mowerW.getyPosition());
 		assertEquals('S', mowerW.getDirection());
+		
+	}
+	
+	@Test
+	public void initialisationPelouse_55() {
+		assertEquals(5., lawn.getWidth(), 0.001);
+		assertEquals(5., lawn.getLength(), 0.001);
+		
+	}
+	
+	@Test
+	public void ajoutPelouse2Tondeuses_12Wpuis12S() {
+		Lawn lawn = new Lawn(5, 5);
+		
+		lawn.addMower(mowerW);
+		lawn.addMower(mowerS);
+		lawn.addMower(mowerN);
+		
+		Mower firstMower = ((LinkedList<Mower>)lawn.getMowers()).poll();
+		// 1ère tondeuse de direction ouest
+		assertEquals(1, firstMower.getxPosition());
+		assertEquals(2, firstMower.getyPosition());
+		assertEquals('W', firstMower.getDirection());
+		
+		Mower secondMower = ((LinkedList<Mower>)lawn.getMowers()).poll();
+		// 2ème tondeuse de direction sud
+		assertEquals(1, secondMower.getxPosition());
+		assertEquals(2, secondMower.getyPosition());
+		assertEquals('S', secondMower.getDirection());
+		
+		Mower thirdMower = ((LinkedList<Mower>)lawn.getMowers()).poll();
+		// 3ème tondeuse de direction nord
+		assertEquals(1, thirdMower.getxPosition());
+		assertEquals(2, thirdMower.getyPosition());
+		assertEquals('N', thirdMower.getDirection());
+		
+		assertNull(((LinkedList<Mower>)lawn.getMowers()).poll());
 		
 	}
 }
