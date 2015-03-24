@@ -10,67 +10,93 @@ import org.junit.Test;
  */
 public class MowerTest 
 {
-	Mower mower1;
+	Mower mowerN;
+	Mower mowerE;
+	Mower mowerS;
+	Mower mowerW;
 
 	@Before
-	public void SetUp() {
-		mower1 = new Mower(1, 2, 'N');
+	public void SetUp() throws Exception {
+		mowerN = new Mower(1, 2, 'N');
+		mowerE = new Mower(1, 2, 'E');
+		mowerS = new Mower(1, 2, 'S');
+		mowerW = new Mower(1, 2, 'W');
 	}
 	
 	@Test
-	public void initialisationMower() {
-		Mower mower = new Mower(1, 2, 'N');
-		
+	public void initialisationMower_12N() throws Exception {
 		// Position initiale
-		assertEquals(1, mower.getxPosition());
-		assertEquals(2, mower.getyPosition());
-		assertEquals('N', mower.getDirection());
+		assertEquals(1, mowerN.getxPosition());
+		assertEquals(2, mowerN.getyPosition());
+		assertEquals('N', mowerN.getDirection());
 	}
 	
-	@Test
-	public void appliquerOrdreAAvecUneDirectionNord() {
-		
-		//Déplacement en avant
-		mower1.move('A');
-		assertEquals(1, mower1.getxPosition());
-		assertEquals(3, mower1.getyPosition());
-		assertEquals('N', mower1.getDirection());
-		
-	}
 	
 	@Test
-	public void appliquerOrdreAAvecUneDirectionOuest() {
-		Mower mower = new Mower(1, 2, 'W');
+	public void initialisationMowerEnDirectionInconnue_12Z_FailedException() {
 		
-		//Déplacement en avant
-		mower.move('A');
-		assertEquals(0, mower.getxPosition());
-		assertEquals(2, mower.getyPosition());
-		assertEquals('W', mower.getDirection());
+		Throwable e = null;
+		Mower mower;
+		
+		try {
+			mower = new Mower(1, 2, 'Z');
+		} catch (Throwable ex) {
+		  e = ex;
+		}
+		
+		assertTrue(e instanceof FailedInitializationException);
 		
 	}
 	
 	@Test
-	public void appliquerOrdreAAvecUneDirectionSud() {
-		Mower mower = new Mower(1, 2, 'E');
+	public void appliquerOrdreA_12N_13N() {
 		
 		//Déplacement en avant
-		mower.move('A');
-		assertEquals(2, mower.getxPosition());
-		assertEquals(2, mower.getyPosition());
-		assertEquals('E', mower.getDirection());
+		mowerN.moveForward();
+		assertEquals(1, mowerN.getxPosition());
+		assertEquals(3, mowerN.getyPosition());
+		assertEquals('N', mowerN.getDirection());
 		
 	}
 	
 	@Test
-	public void appliquerOrdreAAvecUneDirectionEst() {
-		Mower mower = new Mower(1, 2, 'S');
+	public void appliquerOrdreA_12W_02W() {
 		
 		//Déplacement en avant
-		mower.move('A');
-		assertEquals(1, mower.getxPosition());
-		assertEquals(1, mower.getyPosition());
-		assertEquals('S', mower.getDirection());
+		mowerW.moveForward();
+		assertEquals(0, mowerW.getxPosition());
+		assertEquals(2, mowerW.getyPosition());
+		assertEquals('W', mowerW.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreA_12E_22E() {
+		//Déplacement en avant
+		mowerE.moveForward();
+		assertEquals(2, mowerE.getxPosition());
+		assertEquals(2, mowerE.getyPosition());
+		assertEquals('E', mowerE.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreA_12S_11S() {
+		//Déplacement en avant
+		mowerS.moveForward();
+		assertEquals(1, mowerS.getxPosition());
+		assertEquals(1, mowerS.getyPosition());
+		assertEquals('S', mowerS.getDirection());
+		
+	}
+	
+	@Test
+	public void appliquerOrdreD_12N_12E() {
+		//Déplacement en avant
+		mowerN.turnRight();
+		assertEquals(1, mowerN.getxPosition());
+		assertEquals(2, mowerN.getyPosition());
+		assertEquals('E', mowerN.getDirection());
 		
 	}
 }

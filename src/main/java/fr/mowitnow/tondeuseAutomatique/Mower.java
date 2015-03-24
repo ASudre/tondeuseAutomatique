@@ -22,10 +22,16 @@ public class Mower
 	 */
 	private char direction;
 	
-    public Mower(int xPosition, int yPosition, char direction) {
+    public Mower(int xPosition, int yPosition, char direction) throws FailedInitializationException{
+    	
+    	if(direction != 'N' && direction != 'E' && direction != 'S' && direction != 'W') {
+    		throw new FailedInitializationException();
+    	}
+    	
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 		this.direction = direction;
+
 	}
 
 	public int getxPosition() {
@@ -41,50 +47,36 @@ public class Mower
 	}
 	
 	/**
-	 * Application des ordres à la tondeuse
+	 * Permet de faire avancer la tondeuse
+	 */
+	public void moveForward() {
+			switch(this.direction) {
+			case 	'N': this.yPosition += 1;
+					break;
+			case 	'E': this.xPosition += 1;
+					break;
+			case 	'S': this.yPosition -= 1;
+					break;
+			case 	'W': this.xPosition -= 1;
+					break;
+		}
+	}
+	
+	/**
+	 * Tourne la tondeuse à droite
 	 * @param order
 	 */
-	public void move(char order) {
-		
-		if('A' == order) {
+	public void turnRight() {
+
 			switch(this.direction) {
-				case 	'N': this.yPosition += 1;
-						break;
-				case 	'E': this.xPosition += 1;
-						break;
-				case 	'S': this.yPosition -= 1;
-						break;
-				case 	'W': this.xPosition -= 1;
-						break;
-			}
-		}
-		else {
-			if('D' == order) {
-				switch(this.direction) {
-					case 	'N': this.direction = 'E';
-							break;
-					case 	'E': this.xPosition = 'S'; 
-							break;
-					case 	'S': this.xPosition = 'W';
-							break;
-					case 	'W': this.yPosition = 'N';
-							break;
-				}
-			}
-			else {
-				if('G' == order) {
-					switch(this.direction) {
-						case 	'N': this.yPosition = 'W';
-								break;
-						case 	'E': this.xPosition = 'N';
-								break;
-						case 	'S': this.xPosition = 'E';
-								break;
-						case 	'W': this.yPosition = 'S';
-								break;
-					}
-				}
-			}
+			case 	'N': this.direction = 'E';
+					break;
+			case 	'E': this.xPosition = 'S';
+					break;
+			case 	'S': this.yPosition -= 'W';
+					break;
+			case 	'W': this.xPosition -= 'N';
+					break;
 		}
 
 	}
