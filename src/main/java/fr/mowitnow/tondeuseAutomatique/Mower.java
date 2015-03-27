@@ -1,7 +1,10 @@
 package fr.mowitnow.tondeuseAutomatique;
 
+import fr.mowitnow.tondeuseAutomatique.exceptions.FailedInitializationMowerException;
+
 /**
- * Hello world!
+ * Représente une tondeuse
+ * @author Arthur
  *
  */
 public class Mower 
@@ -22,15 +25,49 @@ public class Mower
 	 */
 	private char direction;
 	
-    public Mower(int xPosition, int yPosition, char direction) throws FailedInitializationException{
+	/**
+	 * Instructions d'exécutions
+	 */
+	private String instructions;
+
+	/**
+	 * Pelouse à tondre
+	 */
+	private Lawn lawn;
+	
+	/**
+	 * Constructeur de la tondeuse indiquant les informations de la pelouse, les instructions et la position intiale de la tondeuse
+	 * @param lawn
+	 * @param instructions
+	 * @param xPosition
+	 * @param yPosition
+	 * @param direction
+	 * @throws FailedInitializationMowerException
+	 */
+    public Mower(Lawn lawn, String instructions, int xPosition, int yPosition, char direction) throws FailedInitializationMowerException{
     	
     	if(direction != 'N' && direction != 'E' && direction != 'S' && direction != 'W') {
-    		throw new FailedInitializationException();
+    		throw new FailedInitializationMowerException();
     	}
     	
-		this.xPosition = xPosition;
+		if(instructions == null) {
+			throw new FailedInitializationMowerException();
+		}
+		else {
+			this.instructions = instructions;
+		}
+	
+    	if(lawn == null) {
+    		throw new FailedInitializationMowerException();
+    	}
+    	else {
+    		this.lawn = lawn;
+		}
+    	
+    	this.xPosition = xPosition;
 		this.yPosition = yPosition;
 		this.direction = direction;
+		
 
 	}
 
@@ -49,16 +86,24 @@ public class Mower
 	/**
 	 * Permet de faire avancer la tondeuse
 	 */
-	public void moveForward() {
-			switch(this.direction) {
-			case 	'N': this.yPosition += 1;
+	private void moveForward() {
+		int nextXPosition = xPosition;
+		int nextYPosition = yPosition;
+		
+		switch(this.direction) {
+			case 	'N': nextYPosition += 1;
 					break;
-			case 	'E': this.xPosition += 1;
+			case 	'E': nextXPosition += 1;
 					break;
-			case 	'S': this.yPosition -= 1;
+			case 	'S': nextYPosition -= 1;
 					break;
-			case 	'W': this.xPosition -= 1;
+			case 	'W': nextXPosition -= 1;
 					break;
+		}
+		
+		if(isInsideLawn(nextXPosition, nextYPosition)) {
+			xPosition = nextXPosition;
+			yPosition = nextYPosition;
 		}
 	}
 	
@@ -66,7 +111,7 @@ public class Mower
 	 * Tourne la tondeuse à droite
 	 * @param order
 	 */
-	public void turnRight() {
+	private void turnRight() {
 
 			switch(this.direction) {
 			case 	'N': this.direction = 'E';
@@ -85,8 +130,7 @@ public class Mower
 	 * Tourne la tondeuse à droite
 	 * @param order
 	 */
-	public void turnLeft() {
-
+	private void turnLeft() {
 			switch(this.direction) {
 			case 	'E': this.direction = 'N';
 					break;
@@ -97,6 +141,65 @@ public class Mower
 			case 	'N': this.direction = 'W';
 					break;
 		}
-
 	}
+	
+	/**
+	 * Exécution des instructions
+	 * @param instructions
+	 */
+	public boolean executeInstructions() {
+		
+		if(instructions != null) {
+		
+			char[] letters = instructions.toCharArray();
+			
+			for (char letter : letters) {
+				switch (letter) {
+				case 'A':
+					moveForward();
+					break;
+				case 'D':
+					turnRight();
+					break;
+				case 'G':
+					turnLeft();
+					break;
+				default:
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/**
+	 * Vérifie si la tondeuse reste dans la pelouse
+	 * @param xPosition
+	 * @param yPosition
+	 * @return
+	 */
+	public boolean isInsideLawn(int xPosition, int yPosition) {
+		return xPosition > lawn.getWidth() || xPosition < 0 || yPosition > lawn.getLength() || yPosition < 0 ? false : true;
+	}
+
+	public String getInstructions() {
+		return instructions;
+	}
+
+	public Lawn getLawn() {
+		return lawn;
+	}
+	
+	/**
+	 * Affiche la position de la tondeuse
+	 */
+	@Override
+	public String toString() {
+		return this.getxPosition() + " " + this.getyPosition() + " " + this.getDirection();
+	}
+	
 }

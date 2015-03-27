@@ -1,43 +1,26 @@
 package fr.mowitnow.tondeuseAutomatique;
 
-import java.util.LinkedList;
-import java.util.List;
-
+/**
+ * Réprésente la pelouse
+ * @author Arthur
+ *
+ */
 public class Lawn {
 	
-	List<Mower> mowers;
-
-	private double length;
-	private double width;
+	private int length;
+	private int width;
 	
-	public Lawn(double length, double width) {
+	public Lawn(int length, int width) {
 		this.length = length;
 		this.width = width;
-		
-		mowers = new LinkedList<Mower>();
 	}
 
-	public double getLength() {
+	public int getLength() {
 		return length;
 	}
 
-	public double getWidth() {
+	public int getWidth() {
 		return width;
 	}
-	
-	public void addMower(int xPosition, int yPosition, char direction) {
-		try {
-			mowers.add(new Mower(xPosition, yPosition, direction));
-		} catch (FailedInitializationException e) {
-			// les positions fourniées sont erronées
-		}
-	}
-	
-	public void addMower(Mower mower) {
-		mowers.add(mower);
-	}
 
-	public List<Mower> getMowers() {
-		return mowers;
-	}
 }
