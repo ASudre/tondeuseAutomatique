@@ -1,4 +1,4 @@
-package fr.mowitnow.tondeuseAutomatique;
+	package fr.mowitnow.tondeuseAutomatique;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,10 +21,10 @@ public class MowerTest
 	Mower mowerW;
 	Lawn lawn;
 
-	MowersConfigurator mowersConfiguratorN;
-	MowersConfigurator mowersConfiguratorE;
-	MowersConfigurator mowersConfiguratorS;
-	MowersConfigurator mowersConfiguratorW;
+	AbstractMowersConfigurator mowersConfiguratorN;
+	AbstractMowersConfigurator mowersConfiguratorE;
+	AbstractMowersConfigurator mowersConfiguratorS;
+	AbstractMowersConfigurator mowersConfiguratorW;
 
 	@Before
 	public void SetUp() throws Exception {
@@ -32,7 +32,7 @@ public class MowerTest
 	}
 	
 	@Test
-	public void initialisationMower_12N() throws Exception {
+	public void initializationMower_12N() throws Exception {
 		// Position initiale
 		Mower mowerN = new Mower(lawn, "", 1, 2, 'N');
 		
@@ -43,7 +43,7 @@ public class MowerTest
 	
 	
 	@Test
-	public void initialisationMowerEnDirectionInconnue_12Z_FailedException() {
+	public void initializationMower_12ZAsParams_FailedExceptionThrown() {
 		
 		Throwable e = null;
 		
@@ -61,10 +61,10 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreA_12N_13N() {
+	public void startMowers_12NAsMowerDescriptionAndMove1Forward_13NPositionExpected() {
 		try {
 			mowerN = new Mower(new Lawn(5, 5), "A", 1, 2, 'N');
-			mowersConfiguratorN = new MowersConfigurator(mowerN);
+			mowersConfiguratorN = new TestMowersConfigurator(mowerN);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -81,11 +81,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreA_12W_02W() {
+	public void startMowers_12WAsMowerDescriptionAndMove1Forward_02WPositionExpected() {
 
 		try {
 			mowerW = new Mower(new Lawn(5, 5), "A", 1, 2, 'W');
-			mowersConfiguratorW = new MowersConfigurator(mowerW);
+			mowersConfiguratorW = new TestMowersConfigurator(mowerW);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -102,10 +102,10 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreA_12E_22E() {
+	public void startMowers_12EAsMowerDescriptionAndMove1Forward_22EPositionExpected() {
 		try {
 			mowerE = new Mower(new Lawn(5, 5), "A", 1, 2, 'E');
-			mowersConfiguratorE = new MowersConfigurator(mowerE);
+			mowersConfiguratorE = new TestMowersConfigurator(mowerE);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -121,11 +121,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreA_12S_11S() {
+	public void startMowers_12SAsMowerDescriptionAndMove1Forward_11SPositionExpected() {
 		//Déplacement en avant
 		try {
 			mowerS = new Mower(new Lawn(5, 5), "A", 1, 2, 'S');
-			mowersConfiguratorS = new MowersConfigurator(mowerS);
+			mowersConfiguratorS = new TestMowersConfigurator(mowerS);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -141,11 +141,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreD_12N_12E() {
+	public void startMowers_12NAsMowerDescriptionAndTurnRight_12EPositionExpected() {
 		//Virage à droite
 		try {
 			mowerN = new Mower(new Lawn(5, 5), "D", 1, 2, 'N');
-			mowersConfiguratorN = new MowersConfigurator(mowerN);
+			mowersConfiguratorN = new TestMowersConfigurator(mowerN);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -161,11 +161,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreD_12E_12S() {
+	public void startMowers_12EAsMowerDescriptionAndTurnRight_12SPositionExpected() {
 		//Virage à droite
 		try {
 			mowerE = new Mower(new Lawn(5, 5), "D", 1, 2, 'E');
-			mowersConfiguratorE = new MowersConfigurator(mowerE);
+			mowersConfiguratorE = new TestMowersConfigurator(mowerE);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -181,11 +181,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreD_12S_12W() {
+	public void startMowers_12SAsMowerDescriptionAndTurnRight_12WPositionExpected() {
 		//Virage à droite
 		try {
 			mowerS = new Mower(new Lawn(5, 5), "D", 1, 2, 'S');
-			mowersConfiguratorS = new MowersConfigurator(mowerS);
+			mowersConfiguratorS = new TestMowersConfigurator(mowerS);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -201,11 +201,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreD_12W_12N() {
+	public void startMowers_12WAsMowerDescriptionAndTurnRight_12NPositionExpected() {
 		//Virage à droite
 		try {
 			mowerW = new Mower(new Lawn(5, 5), "D", 1, 2, 'W');
-			mowersConfiguratorW = new MowersConfigurator(mowerW);
+			mowersConfiguratorW = new TestMowersConfigurator(mowerW);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -221,11 +221,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreG_12N_12W() {
+	public void startMowers_12NAsMowerDescriptionAndTurnLeft_12WPositionExpected() {
 		//Virage à gauche
 		try {
 			mowerN = new Mower(new Lawn(5, 5), "G", 1, 2, 'N');
-			mowersConfiguratorN = new MowersConfigurator(mowerN);
+			mowersConfiguratorN = new TestMowersConfigurator(mowerN);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -242,11 +242,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreG_12E_12N() {
+	public void startMowers_12EAsMowerDescriptionAndTurnLeft_12NPositionExpected() {
 		//Virage à gauche
 		try {
 			mowerE = new Mower(new Lawn(5, 5), "G", 1, 2, 'E');
-			mowersConfiguratorE = new MowersConfigurator(mowerE);
+			mowersConfiguratorE = new TestMowersConfigurator(mowerE);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -262,11 +262,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreG_12S_12E() {
+	public void startMowers_12SAsMowerDescriptionAndTurnLeft_12EPositionExpected() {
 		//Virage à gauche
 		try {
 			mowerS = new Mower(new Lawn(5, 5), "G", 1, 2, 'S');
-			mowersConfiguratorS = new MowersConfigurator(mowerS);
+			mowersConfiguratorS = new TestMowersConfigurator(mowerS);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -282,11 +282,11 @@ public class MowerTest
 	}
 	
 	@Test
-	public void appliquerOrdreG_12W_12S() {
+	public void startMowers_12WAsMowerDescriptionAndTurnLeft_12SPositionExpected() {
 		//Virage à gauche
 		try {
 			mowerW = new Mower(new Lawn(5, 5), "G", 1, 2, 'W');
-			mowersConfiguratorW = new MowersConfigurator(mowerW);
+			mowersConfiguratorW = new TestMowersConfigurator(mowerW);
 		} catch (FailedInitializationMowerException e) {
 			fail();
 		}
@@ -302,7 +302,7 @@ public class MowerTest
 	}
 	
 	@Test
-	public void initialisationPelouse_55() {
+	public void initializationLawn_55() {
 		assertEquals(5, lawn.getWidth());
 		assertEquals(5, lawn.getLength());
 		

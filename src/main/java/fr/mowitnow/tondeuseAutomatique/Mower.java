@@ -9,7 +9,6 @@ import fr.mowitnow.tondeuseAutomatique.exceptions.FailedInitializationMowerExcep
  */
 public class Mower 
 {
-	
 	/**
 	 * Position sur l'axe des abscisses
 	 */
@@ -47,18 +46,18 @@ public class Mower
     public Mower(Lawn lawn, String instructions, int xPosition, int yPosition, char direction) throws FailedInitializationMowerException{
     	
     	if(direction != 'N' && direction != 'E' && direction != 'S' && direction != 'W') {
-    		throw new FailedInitializationMowerException();
+    		throw new FailedInitializationMowerException("MOWER_DIRECTION_ERROR", "Erreur dans la description de la direction de la tondeuse.");
     	}
     	
 		if(instructions == null) {
-			throw new FailedInitializationMowerException();
+			throw new FailedInitializationMowerException("NULL_INSTRUCTIONS", "Instructions absentes.");
 		}
 		else {
 			this.instructions = instructions;
 		}
 	
     	if(lawn == null) {
-    		throw new FailedInitializationMowerException();
+    		throw new FailedInitializationMowerException("NULL_LAWN", "Description de la pelouse absente.");
     	}
     	else {
     		this.lawn = lawn;
@@ -109,7 +108,6 @@ public class Mower
 	
 	/**
 	 * Tourne la tondeuse à droite
-	 * @param order
 	 */
 	private void turnRight() {
 
@@ -127,8 +125,7 @@ public class Mower
 	}
 	
 	/**
-	 * Tourne la tondeuse à droite
-	 * @param order
+	 * Tourne la tondeuse à gauche
 	 */
 	private void turnLeft() {
 			switch(this.direction) {
@@ -145,7 +142,6 @@ public class Mower
 	
 	/**
 	 * Exécution des instructions
-	 * @param instructions
 	 */
 	public boolean executeInstructions() {
 		
@@ -178,11 +174,11 @@ public class Mower
 	
 	/**
 	 * Vérifie si la tondeuse reste dans la pelouse
-	 * @param xPosition
-	 * @param yPosition
+	 * @param xPosition valeur des abscisses après instruction
+	 * @param yPosition valeur des ordonnées après instruction
 	 * @return
 	 */
-	public boolean isInsideLawn(int xPosition, int yPosition) {
+	private boolean isInsideLawn(int xPosition, int yPosition) {
 		return xPosition > lawn.getWidth() || xPosition < 0 || yPosition > lawn.getLength() || yPosition < 0 ? false : true;
 	}
 

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import fr.mowitnow.tondeuseAutomatique.exceptions.FileInfoException;
@@ -17,27 +16,19 @@ public class MowersConfiguratorTest
 {
 	
 	Lawn lawn;
-	MowersConfigurator mowersConfigurator;
-
-	/**
-	 * Création du configurateur des tondeuses
-	 * @throws Exception
-	 */
-	@Before
-	public void SetUp() {
-	}
+	MowersConfiguratorByFile mowersConfigurator;
 	
 	/**
 	 * Null en argument du nom du fichier
 	 */
 	@Test
-	public void readFile_null_FileInfoException_NO_FILE() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnNullValueOnParameter() {
 		
 		Throwable e = null;
 		
 		
 		try {
-			mowersConfigurator = new MowersConfigurator((String)null);
+			mowersConfigurator = new MowersConfiguratorByFile((String)null);
 		} catch (Throwable ex) {
 		  e = ex;
 		}
@@ -52,12 +43,12 @@ public class MowersConfiguratorTest
 	 * Fichier inexistant en argument
 	 */
 	@Test
-	public void readFile_fichierInexistant_FileInfoException_NO_FILE() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissingFileOnParameter() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("fichierInexistant");
+			mowersConfigurator = new MowersConfiguratorByFile("fichierInexistant");
 		} catch (Throwable ex) {
 		  e = ex;
 		}
@@ -73,12 +64,12 @@ public class MowersConfiguratorTest
 	 * Fichier vide en argument
 	 */
 	@Test
-	public void createMowersFromFile_fichierVideTxt_FileInfoException_EMPTY_FILE() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnEmptyFileOnParameter() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/fichierVide.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/fichierVide.txt");
 		} catch (Throwable ex) {
 		  e = ex;
 		}
@@ -90,12 +81,12 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_pelouseStringDimensionsTxt_FileInfoException_LAWN_SIZE_ERROR() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnInvalideLawnSizeInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/pelouseStringDimensions.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/pelouseStringDimensions.txt");
 		} catch (Throwable ex) {
 		  e = ex;
 		}
@@ -107,12 +98,12 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_pelouseUneSeuleDimensionFournieTxt_FileInfoException_LAWN_SIZE_ERROR() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissingOneLawnDimensionInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/pelouseUneSeuleDimensionFournie.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/pelouseUneSeuleDimensionFournie.txt");
 		} catch (Throwable ex) {
 		  e = ex;
 		}
@@ -124,12 +115,12 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_pasInfoTondeuseTxt_FileInfoException_NO_MOWER_ERROR() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissingMowerInformationInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/pasInfoTondeuse.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/pasInfoTondeuse.txt");
 		} catch (Throwable ex) {
 		  e = ex;
 		}
@@ -141,12 +132,30 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_manqueInstructionPremiereTondeuseTxt_FileInfoException_ERROR_NO_MOWER_INSTRUCTION() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissing1stMowerDirectionInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/manqueInstructionPremiereTondeuse.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/manqueInfoDirectionPremiereTondeuse.txt");
+			
+		} catch (Throwable ex) {
+			e = ex;
+		}
+		
+		assertTrue(e instanceof FileInfoException);
+		
+		assertEquals("ERROR_MOWER_DESCRIPTION", ((FileInfoException) e).getMessageCourt());
+		assertEquals("Erreur dans la description d'une tondeuse.", ((FileInfoException) e).getMessageLong());
+	}
+	
+	@Test
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissing1stMowerInstructionsInFile() {
+		
+		Throwable e = null;
+		
+		try {
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/manqueInstructionPremiereTondeuse.txt");
 			
 		} catch (Throwable ex) {
 		  e = ex;
@@ -159,15 +168,15 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_manqueInfoDirectionPremiereTondeuseTxt_FileInfoException_ERROR_MOWER_DESCRIPTION() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissing2ndMowerDirectionInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/manqueInfoDirectionPremiereTondeuse.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/manqueInfoDirectionDeuxiemeTondeuse.txt");
 			
 		} catch (Throwable ex) {
-		  e = ex;
+			e = ex;
 		}
 		
 		assertTrue(e instanceof FileInfoException);
@@ -177,12 +186,12 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_manqueInstructionDeuxiemeTondeuseTxt_FileInfoException_ERROR_NO_MOWER_INSTRUCTION() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissing2ndMowerInstructionsInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/manqueInstructionDeuxiemeTondeuse.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/manqueInstructionDeuxiemeTondeuse.txt");
 			
 		} catch (Throwable ex) {
 		  e = ex;
@@ -192,36 +201,18 @@ public class MowersConfiguratorTest
 		
 		assertEquals("ERROR_NO_MOWER_INSTRUCTION", ((FileInfoException) e).getMessageCourt());
 		assertEquals("Pas d'instruction pour une tondeuse.", ((FileInfoException) e).getMessageLong());
-	}
-	
-	@Test
-	public void createMowersFromFile_manqueInfoDirectionDeuxiemeTondeuseTxt_FileInfoException_ERROR_MOWER_DESCRIPTION() {
-		
-		Throwable e = null;
-		
-		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/manqueInfoDirectionDeuxiemeTondeuse.txt");
-			
-		} catch (Throwable ex) {
-		  e = ex;
-		}
-		
-		assertTrue(e instanceof FileInfoException);
-		
-		assertEquals("ERROR_MOWER_DESCRIPTION", ((FileInfoException) e).getMessageCourt());
-		assertEquals("Erreur dans la description d'une tondeuse.", ((FileInfoException) e).getMessageLong());
 	}
 	
 	/**
 	 * Test fournis des chaînes de caractères comme position de la tondeuse
 	 */
 	@Test
-	public void createMowersFromFile_positionTondeuseStringTxt_FileInfoException_ERROR_MOWER_DESCRIPTION() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnMissing1stMowerPositionInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/positionTondeuseString.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/positionTondeuseString.txt");
 			
 		} catch (Throwable ex) {
 		  e = ex;
@@ -234,12 +225,12 @@ public class MowersConfiguratorTest
 	}
 	
 	@Test
-	public void createMowersFromFile_directionTondeuseZTxt_FileInfoException_MOWER_DIRECTION_ERROR() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnWrong1stMowerDirectionInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/directionTondeuseZ.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/directionTondeuseZ.txt");
 			
 		} catch (Throwable ex) {
 		  e = ex;
@@ -255,12 +246,12 @@ public class MowersConfiguratorTest
 	 * Instructions non valides pour la tondeuse
 	 */
 	@Test
-	public void createMowersFromFile_instructionsTondeuseZTxt_FileInfoException_MOWER_INSTRUCTIONS_ERROR() {
+	public void constructorMowersConfiguratorByFile_FileInfoExceptionThrownOnWrong1stMowerInstructionsInFile() {
 		
 		Throwable e = null;
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/instructionsTondeuseZ.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/instructionsTondeuseZ.txt");
 			
 		} catch (Throwable ex) {
 		  e = ex;
@@ -278,10 +269,10 @@ public class MowersConfiguratorTest
 	 * Une tondeuse valide de position : 1 2 N et instructions : ADDG
 	 */
 	@Test
-	public void createMowersFromFile_descriptionValideTondeuseTxt_12N() {
+	public void constructorMowersConfiguratorByFile_validMowerDescriptionInFile() {
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/descriptionValideTondeuse_sansBordure.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/descriptionValideTondeuse_sansBordure.txt");
 			
 		} catch (Throwable ex) {
 			// ne rentre pas ici
@@ -308,10 +299,10 @@ public class MowersConfiguratorTest
 	 * Une tondeuse valide de position : 1 2 N et instructions : ADDG
 	 */
 	@Test
-	public void executeInstructionsFromFile_descriptionValideTondeuse_sansBordureTxt() {
+	public void executeInstructions_validMowerDescriptionInFileNeverHitsBorders_finalPositionOK() {
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/descriptionValideTondeuse_sansBordure.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/descriptionValideTondeuse_sansBordure.txt");
 			
 		} catch (Throwable ex) {
 			// ne rentre pas ici
@@ -341,12 +332,13 @@ public class MowersConfiguratorTest
 	/**
 	 * Pelouse 3x4
 	 * Une tondeuse valide de position : 1 1 N et instructions : GAAGAADADA
+	 * En testant l'arrêt de la tondeuse aux bordures de la pelouse
 	 */
 	@Test
-	public void executeInstructionsFromFile_descriptionValideTondeuse_avecBordureTxt() {
+	public void executeInstructions_validMowerDescriptionInFileWithTestBorders_finalPositionOK() {
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/descriptionValideTondeuse_avecBordure.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/descriptionValideTondeuse_avecBordure.txt");
 			
 		} catch (Throwable ex) {
 			// ne rentre pas ici
@@ -362,12 +354,12 @@ public class MowersConfiguratorTest
 		assertEquals(1, mower.getxPosition());
 		assertEquals(1, mower.getyPosition());
 		assertEquals('N', mower.getDirection());
-		assertEquals("GAAGAADADA", mower.getInstructions());
+		assertEquals("GAAGAADADAAAADAAAAADAAAA", mower.getInstructions());
 		
 		assertTrue(mower.executeInstructions());
-		assertEquals(0, mower.getxPosition());
-		assertEquals(1, mower.getyPosition());
-		assertEquals('N', mower.getDirection());
+		assertEquals(4, mower.getxPosition());
+		assertEquals(0, mower.getyPosition());
+		assertEquals('S', mower.getDirection());
 		
 		assertTrue(mowersConfigurator.hasNextMower());
 	}
@@ -378,10 +370,10 @@ public class MowersConfiguratorTest
 	 * tondeuse2 : 1 2 N et instructions : ADDG
 	 */
 	@Test
-	public void executeInstructionsFromFile_descriptionValideDeuxTondeuses_avecBordureTxt() {
+	public void executeInstructions_validTwoMowersDescriptionsInFileWithTestBorders_finalPositionOK() {
 		
 		try {
-			mowersConfigurator = new MowersConfigurator("ressources/test/descriptionValideDeuxTondeuses_avecBordure.txt");
+			mowersConfigurator = new MowersConfiguratorByFile("ressources/test/descriptionValideDeuxTondeuses_avecBordure.txt");
 			
 		} catch (Throwable ex) {
 			// ne rentre pas ici
